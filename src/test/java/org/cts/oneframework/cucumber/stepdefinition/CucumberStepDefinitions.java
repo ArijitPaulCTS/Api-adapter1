@@ -20,12 +20,12 @@ public class CucumberStepDefinitions extends AbstractSteps {
 
 	@Then("^Book a bus ticket$")
 	public void book_a_bus_ticket() {
-		getPageObjectManager().getHomePage().search().setSource(DefaultStepDefinition.getRowData().get("from")).setDestination(DefaultStepDefinition.getRowData().get("to")).selectOnwardDate(DateUtils.getCurrentDate("d-MMM yyyy")).selectReturnDate(DateUtils.getTomorrowDate("d-MMM yyyy")).searchBuses();
+		getPageObjectManager().getHomePage().search().setSource(DefaultStepDefinition.currentIterationMap.get().get("from")).setDestination(DefaultStepDefinition.currentIterationMap.get().get("to")).selectOnwardDate(DateUtils.getCurrentDate("d-MMM yyyy")).selectReturnDate(DateUtils.getTomorrowDate("d-MMM yyyy")).searchBuses();
 	}
 
 	@Then("Book a bus ticket from {string} to {string}")
 	public void book_a_bus_ticket_from_to(String from, String to) {
-		getPageObjectManager().getHomePage().search().setSource(DefaultStepDefinition.getRowData().get(from)).setDestination(DefaultStepDefinition.getRowData().get(to)).selectOnwardDate(DateUtils.getCurrentDate("d-MMM yyyy")).selectReturnDate(DateUtils.getTomorrowDate("d-MMM yyyy")).searchBuses();
+		getPageObjectManager().getHomePage().search().setSource(DefaultStepDefinition.currentIterationMap.get().get(from)).setDestination(DefaultStepDefinition.currentIterationMap.get().get(to)).selectOnwardDate(DateUtils.getCurrentDate("d-MMM yyyy")).selectReturnDate(DateUtils.getTomorrowDate("d-MMM yyyy")).searchBuses();
 		stopDriver();
 	}
 
