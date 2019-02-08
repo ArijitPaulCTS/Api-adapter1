@@ -1,0 +1,75 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "required": [
+    "_id",
+    "price",
+    "title",
+    "brand",
+    "age",
+    "__v"
+  ],
+  "properties": {
+    "_id": {
+      "$id": "#/properties/_id",
+      "type": "string",
+      "title": "The _id Schema",
+      "default": "",
+      "examples": [
+        "5c5a96187af2ad47a8915860"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "price": {
+      "$id": "#/properties/price",
+      "type": "string",
+      "title": "The Price Schema",
+      "default": "",
+      "examples": [
+        "$2000"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "title": {
+      "$id": "#/properties/title",
+      "type": "string",
+      "title": "The Title Schema",
+      "default": "",
+      "examples": [
+        "car1"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "brand": {
+      "$id": "#/properties/brand",
+      "type": "string",
+      "title": "The Brand Schema",
+      "default": "",
+      "examples": [
+        "brand1"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "age": {
+      "$id": "#/properties/age",
+      "type": "integer",
+      "title": "The Age Schema",
+      "default": 0,
+      "examples": [
+        5
+      ]
+    },
+    "__v": {
+      "$id": "#/properties/__v",
+      "type": "integer",
+      "title": "The __v Schema",
+      "default": 0,
+      "examples": [
+        0
+      ]
+    }
+  }
+}

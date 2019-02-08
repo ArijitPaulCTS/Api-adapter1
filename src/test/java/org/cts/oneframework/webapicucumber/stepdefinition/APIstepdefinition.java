@@ -9,6 +9,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.cts.oneframework.webapicucumber.stepdefinition.DefaultStepDefinition;
 import org.testng.Assert;
 
+//import com.jayway.restassured.RestAssured;
+//import com.jayway.restassured.authentication.PreemptiveBasicAuthScheme;
+//import com.jayway.restassured.http.ContentType;
+//import com.jayway.restassured.response.Response;
+//import com.jayway.restassured.specification.RequestSpecification;
+
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -19,6 +25,8 @@ import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import org.json.simple.JSONObject;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+
 
 import static org.hamcrest.Matchers.equalTo;
 
@@ -71,6 +79,29 @@ public class APIstepdefinition {
 	    if(!strDynamicHeaders.isEmpty()) {
 	    
 	    }
+	}
+	
+	@Given("^User provides correct values for \"([^\\\"]*)\" and \"([^\"]*)\"$")
+	public void user_provides_correct_values_for_AuthenticationCert(String strAuthenticationType, String strAuthenticationDetails) {
+		//RestAssured.config = newConfig().sslConfig(sslConfig().allowAllHostnames()); 
+		String authType=DefaultStepDefinition.currentIterationMap.get().get(strAuthenticationType);
+		if (!authType.isEmpty()) {
+			String[] authDetails = DefaultStepDefinition.currentIterationMap.get().get(strAuthenticationDetails).split(":");
+			if (authType.equalsIgnoreCase("Basic")) {
+				PreemptiveBasicAuthScheme authScheme = new PreemptiveBasicAuthScheme();
+				authScheme.setUserName(authDetails[0]);
+				authScheme.setPassword(authDetails[1]);
+				RestAssured.authentication = authScheme;	
+			}else if(authType.equalsIgnoreCase("Certificate")) {
+				String pathToCert = authDetails[0];
+				String password = "";
+				try {
+					password=authDetails[1];
+				}catch(Exception e) {
+				}	
+				RestAssured.config().getSSLConfig().with().keyStore(pathToCert, password);
+			}			
+		}
 	}
 	
 	@Given("^User provides correct values for BasicAuthentication \"([^\"]*)\"$")
@@ -137,6 +168,46 @@ public class APIstepdefinition {
 	    				.post();
 
 	    	}
+	    	else if(strOperation.equalsIgnoreCase("put")) {
+	    		String jsnReqTem="";
+	    		if(!strSampleJsonReq.isEmpty()) {
+	    			try {
+						jsnReqTem = new String(Files.readAllBytes(Paths.get(".\\src\\test\\resources\\data\\"+strSampleJsonReq)));
+
+					} catch (IOException e) {
+
+						e.printStackTrace();
+					}
+	    		}
+	    		
+	    		if(!strListofParam.isEmpty()) {
+	    			String reqParam[]=strListofParam.split("~");
+	    			for(String param: reqParam) {
+	    				String valParam=DefaultStepDefinition.currentIterationMap.get().get(param);   		
+	    				jsnReqTem=updateJsonRequest(jsnReqTem,param,valParam);
+	    			}
+	    		}
+  
+	    		request.body(jsnReqTem);
+	    		response=request
+	    				.when()
+	    				.put();
+
+	    	}
+	    	
+	    	else if(strOperation.equalsIgnoreCase("Delete") && strListofParam.isEmpty()) {
+				response=request.when().delete();
+
+	    	}
+	    	else if ((strOperation.equalsIgnoreCase("Delete") && !strListofParam.isEmpty()))
+	    	{
+	    		String reqParam[]=strListofParam.split("~");
+	   			for(String param: reqParam) {
+	 				String valParam=DefaultStepDefinition.currentIterationMap.get().get(param);   		
+	 				request.param(param, valParam);
+				}    		
+	   			response=request.when().delete();
+	    	}
 	    	
 	    }
 	}
@@ -177,8 +248,15 @@ public class APIstepdefinition {
 	public void verify_the_in_for_the_Response(String strResponseCode) {
 	    int statCode=Integer.parseInt(DefaultStepDefinition.currentIterationMap.get().get(strResponseCode));
 	    json = response.then().statusCode(statCode);
+//	    json.body(matchesJsonSchemaInClasspath("greeter-schema.json"));
+//	    response.then().assertThat().body(matchesJsonSchemaInClasspath("json-schema.json"));
 	}
 
+	@Then("Verify response matches scheme {string}")
+	public void verify_response_matches_scheme(String jsonSchema) {
+		response.then().assertThat().body(matchesJsonSchemaInClasspath(jsonSchema));
+	}
+	
 	@Then("Verify the \"([^\"]*)\" status code for the Response")
 	public void verify_the_status_code_for_the_Response(String strResponseCode) {
 

@@ -15,6 +15,7 @@ Feature: WebAPI_Automation
         |price|$2000|
         |age|5|
     Then Verify the "200" status code for the Response
+    And Verify response matches scheme "json-schema.json"
     And response includes the following
         |title|car1|
         |brand|brand1|

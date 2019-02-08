@@ -10,7 +10,7 @@ Feature: WebAPI_Automation
     Given BaseUri is available for "baseUrl"
     And Static "Headers" information are loaded for the WebApi
     And User provides correct headers for <DynamicHeaders>
-    And User provides correct values for BasicAuthentication "BasicAuthentication"
+    And User provides correct values for "AuthenticationType" and "AuthenticationDetails"
     When User performs "Post" operation with <ListOfParameters> with correct values as par <BaseRequestJson>
     Then Verify the "statuscode" in for the Response
     And Verify the Expected Value for <ListofResponseFields> should match with response
