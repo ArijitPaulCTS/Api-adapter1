@@ -8,7 +8,7 @@ Feature: Cucumber Test Scenarios
 
   Scenario Outline: TS_05
     Then Book a bus ticket from "<location1>" to "<location2>"
-
+	#change 1_2
     Examples: 
       | location1 | location2 |
       | from      | to        |
