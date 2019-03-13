@@ -6,7 +6,7 @@ Feature: WebAPI_Automation
     Given A workbook named "WebAPI_myTest" and sheet named "gitHUB" is read
     And Proxy Host "proxy.cognizant.com" and Port "6050" is set
 
-           
+   # added code        
   @getcall @searchGitIssue @XLdata
   Scenario Outline: Search GitHUB Issues
     Given BaseUri is available for "baseUrl"
