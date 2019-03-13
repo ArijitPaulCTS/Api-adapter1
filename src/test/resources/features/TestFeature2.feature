@@ -9,7 +9,7 @@ Scenario: TS_04
 	
 	 Scenario Outline: TS_02
     Then Book a bus ticket from "<location1>" to "<location2>"
-
+# p2 c1
     Examples: 
       | location1 | location2 |
       | from      | to        |
