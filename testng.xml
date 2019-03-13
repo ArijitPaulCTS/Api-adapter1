@@ -4,7 +4,7 @@
 	<test name="Test1">
 		<classes>
 			<class name="org.cts.oneframework.cucumber.testrunners.TestRunner" />
-			<class name="org.cts.oneframework.cucumber.testrunners.TestRunner3" />
+			<class name="org.cts.oneframework.cucumber.testrunners.APITestRunner" />
 		</classes>
 	</test>
 

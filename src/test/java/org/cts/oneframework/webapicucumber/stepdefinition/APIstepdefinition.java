@@ -248,6 +248,7 @@ public class APIstepdefinition {
 	public void verify_the_in_for_the_Response(String strResponseCode) {
 	    int statCode=Integer.parseInt(DefaultStepDefinition.currentIterationMap.get().get(strResponseCode));
 	    json = response.then().statusCode(statCode);
+	    response.body().toString();
 //	    json.body(matchesJsonSchemaInClasspath("greeter-schema.json"));
 //	    response.then().assertThat().body(matchesJsonSchemaInClasspath("json-schema.json"));
 	}
@@ -261,6 +262,7 @@ public class APIstepdefinition {
 	public void verify_the_status_code_for_the_Response(String strResponseCode) {
 
 	    json = response.then().statusCode(Integer.parseInt(strResponseCode));
+	    
 	}
 	
 	@Then("Verify the Expected Value for ([^\"]*) should match with response")
@@ -305,6 +307,7 @@ public class APIstepdefinition {
 
             }
             else{
+
      	
             	Assert.assertEquals(response.jsonPath().getString(field.getKey()),field.getValue());
             }
